@@ -10,7 +10,10 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
     object_types = serializers.SerializerMethodField(read_only=True, default=[])
 
     def get_object_types(self, obj):
-        return ['<%s: %s>' % (obj.__class__.__name__, obj)]
+        if isinstance(obj, User):
+            return ['<%s: %s>' % (obj.__class__.__name__, obj)]
+        else:
+            raise Exception("Unexpected type passed <%s: %s>" % (obj.__class__.__name__, obj))
 
 
 
